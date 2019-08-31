@@ -6,9 +6,25 @@ const wikiAirports = 'https://pt.wikipedia.org/wiki/Lista_de_aeroportos_por_pa%C
 const cache = require('./cache');
 (
 async function main() {
-    try {
-        cache.check();
-        const startTime = new Date().getTime();
+    cache.check();
+    const startTime = new Date().getTime();
+
+    Promise.all([
+        loadBeaches(),
+        loadAirports()
+    ])
+    .then(values => {
+        const endTime = new Date().getTime();
+        console.log(`Whole process took ${(endTime - startTime)/1000} seconds.`)
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
+)();
+
+function loadBeaches() {
+    return new Promise(async (resolve, reject) => {
         console.log('>>>> Started Loading Beaches Page');
         let beachPage = cache.load('beachPage');
         if (!beachPage) {
@@ -17,6 +33,12 @@ async function main() {
             cache.save('beachPage', beachPage);
         }
         console.log('>>>> Finished Loading Beaches Page');
+        let { document } = (new JSDOM(beachPage)).window;
+        console.log(document.querySelector('#firstHeading').textContent);
+    });
+}
+function loadAirports() {
+    return new Promise(async (resolve, reject) => {
         console.log('>>>> Started Loading Airports Page');
         let airportPages = cache.load('airportPages');
         if (!airportPages) {
@@ -25,14 +47,5 @@ async function main() {
             cache.save('airportPages', airportPages);
         }
         console.log('>>>> Finished Loading Airports Page');
-        let { document } = (new JSDOM(beachPage)).window;
-        console.log(document.querySelector('#firstHeading').textContent);
-        const endTime = new Date().getTime();
-
-        console.log(`Whole process took ${(endTime - startTime)/1000} seconds.`)
-    } catch(e) {
-        console.log(e);
-        return;
-    }
+    });
 }
-)();
