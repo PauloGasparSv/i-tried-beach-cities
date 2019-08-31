@@ -4,6 +4,7 @@
   "description": "A simple script that crawls the web and searches for all the beach cities with an airport.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "PauloVale",
