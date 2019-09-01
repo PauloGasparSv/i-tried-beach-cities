@@ -37,5 +37,8 @@ If required, run with the env variable NO_CACHE turned on to remove the .cache f
 NO_CACHE=1 node app.js
 ```
 
+## Git
+This project was coded using git and i included the .git files and folders inside of it. So you can ` git log ` or whatever.
+
 ### Special thanks
 Myself and spiderman
