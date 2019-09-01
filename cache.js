@@ -1,5 +1,7 @@
+'use strict';
 const path = require('path');
 const fs = require('fs');
+
 module.exports = {
     check: () => {
         if (process.env.NO_CACHE === '1') {
@@ -14,11 +16,11 @@ module.exports = {
         }
     },
     load: (file) => {
-        if (!fs.existsSync(path.join('.cache',file))) {
+        if (!fs.existsSync(path.join('.cache', file))) {
             return null;
         }
-        return fs.readFileSync(path.join('.cache',file));
+        return fs.readFileSync(path.join('.cache', file), 'utf8');
     },
     save: (file, content) =>
-        fs.writeFileSync(path.join('.cache',file), content)
+        fs.writeFileSync(path.join('.cache',file), content, 'utf8')
 };
